@@ -1,3 +1,4 @@
-window.APP_CONFIG = {
-  API_URL: "https://script.google.com/macros/s/AKfycby5Kk9tcftaOFpPZkoZDHexRx1ApW5raXlSeUWB_vwNy-rLfMD9hdIuo9gxD15dOb-o/exec"
-};
+
+// Configuration for Project System 2570
+// Google Apps Script Web App endpoint
+window.API_URL = "https://script.google.com/macros/s/AKfycbwkYXAwWdcZksTt6Z58uW_aupIBD3oj_EVv9SahYyEYByRpk15PflwCxlMT3HcGnPLc/exec";
