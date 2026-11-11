@@ -1,3 +1,3 @@
-// ตั้งค่า URL ของ Apps Script Web app (ที่ลงท้ายด้วย /exec) ภายในเครื่องหมายคำพูด
-// ถ้าเว้นว่าง ระบบจะทำงานโหมดทดลอง (เก็บข้อมูลในเบราว์เซอร์)
-window.API_URL = "";
+window.APP_CONFIG = {
+  API_URL: "https://script.google.com/macros/s/AKfycby5Kk9tcftaOFpPZkoZDHexRx1ApW5raXlSeUWB_vwNy-rLfMD9hdIuo9gxD15dOb-o/exec"
+};
