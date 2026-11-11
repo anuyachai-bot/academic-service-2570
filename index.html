@@ -94,7 +94,7 @@ body.cloud .role{display:none}
 <script>
 var ROLES=["Admin","ผู้ยื่นข้อเสนอโครงการ","เจ้าหน้าที่หน่วยบริการวิชาการ","คณะกรรมการบริการวิชาการรับใช้สังคม","ผู้บริหาร"];
 var STAT=["ร่าง","รอตรวจสอบ","ผ่าน","ไม่ผ่าน","อนุมัติทุน","ทำสัญญา","เบิกเงินงวด 1","เบิกเงินงวด 2","ปิดโครงการ"];
-var ALLOW=[STAT,["ร่าง / บันทึกฉบับร่าง","ส่งข้อเสนอแล้ว","อยู่ระหว่างแก้ไข","รอตรวจสอบรายงาน","รอตรวจสอบรายงานฉบับสมบูรณ์"],["รอตรวจสอบเอกสาร","รอเอกสารเพิ่มเติม","รอผลการพิจารณา","รอทำสัญญา","ทำสัญญาแล้ว","รอเริ่มดำเนินโครงการ","อยู่ระหว่างดำเนินโครงการ","เบิกเงินงวด 1","เบิกเงินงวด 2","รอเบิกเงินงวดถัดไป","รอรายงานความก้าวหน้า","รอตรวจสอบรายงาน","รอส่งรายงานฉบับสมบูรณ์","รอตรวจสอบรายงานฉบับสมบูรณ์","รอเคลียร์ค่าใช้จ่าย","รอแก้ไขเอกสารปิดโครงการ","ปิดโครงการสมบูรณ์","ยกเลิกโครงการ"],["รอผลการพิจารณา","ผ่าน","ผ่านแบบมีเงื่อนไข","ไม่ผ่าน","รออนุมัติทุน"],["อนุมัติทุน","ไม่ผ่าน","ยกเลิกโครงการ"]];
+var ALLOW=[STAT,["ร่าง","รอตรวจสอบ"],["รอตรวจสอบ","ผ่าน","ไม่ผ่าน","ทำสัญญา","เบิกเงินงวด 1","เบิกเงินงวด 2","ปิดโครงการ"],["ผ่าน","ไม่ผ่าน","อนุมัติทุน"],["อนุมัติทุน"]];
 var MENU=[["dash","📊 แดชบอร์ด",[0,1,2,3,4]],["form","📝 ยื่นข้อเสนอโครงการ",[0,1]],["list","📁 รายการ / สถานะโครงการ",[0,1,2,3,4]],["follow","💰 ติดตามผล / เบิกจ่าย / SROI",[0,1,2,3]],["comm","👥 คณะกรรมการและสิทธิ์",[0,2]]];
 var MON=["ต.ค.69","พ.ย.69","ธ.ค.69","ม.ค.70","ก.พ.70","มี.ค.70","เม.ย.70","พ.ค.70","มิ.ย.70","ก.ค.70","ส.ค.70","ก.ย.70"];
 var SDG=["ขจัดความยากจน","ขจัดความหิวโหย","สุขภาพและความเป็นอยู่ที่ดี","การศึกษาที่มีคุณภาพ","ความเท่าเทียมทางเพศ","น้ำสะอาดและสุขาภิบาล","พลังงานสะอาดและราคาถูก","งานที่ดีและเศรษฐกิจเติบโต","อุตสาหกรรม นวัตกรรม โครงสร้างพื้นฐาน","ลดความเหลื่อมล้ำ","เมืองและชุมชนที่ยั่งยืน","การบริโภคและผลิตอย่างรับผิดชอบ","การรับมือการเปลี่ยนแปลงสภาพภูมิอากาศ","ทรัพยากรทางทะเล","ระบบนิเวศบนบก","สันติภาพ ยุติธรรม สถาบันเข้มแข็ง","ความร่วมมือเพื่อการพัฒนาที่ยั่งยืน"];
@@ -313,7 +313,7 @@ function mine(p){var r=INB[ST.role];if(ST.role==1&&p.owner!=ST.me)return false;r
 var _d=dash;dash=function(){var h=_d(),m=ST.ps.filter(mine);return h.replace('<div class="kg">','<div class="card" style="border-top-color:#f59e0b"><h3>📥 งานที่รอคุณดำเนินการ ('+m.length+")</h3>"+(m.length?'<div class="wrap"><table><tr><th>รหัส</th><th>โครงการ</th><th>สถานะ</th><th></th></tr>'+m.map(function(p){return"<tr><td>"+esc(p.code)+"</td><td>"+esc(p.th||"(ยังไม่ระบุชื่อ)")+"</td><td>"+tag(p.status)+'</td><td><button class="btn s" onclick="ST.cur='+p.id+";go('form')\">เปิด</button></td></tr>"}).join("")+"</table></div>":'<div class="hint">ไม่มีงานค้าง 🎉</div>')+'</div><div class="kg">')};
 var _c=calc;calc=function(){_c();var p=P(),e=document.getElementById("warn");if(!p||!e)return;var n=0;[0,1,2].forEach(function(a){IT.forEach(function(it){var d=(p.bd[a]||{})[it.k]||{};if(it.a&&+d.q1>0&&+rt(d,it)>it.r)n++})});e.textContent=n?"⚠ มี "+n+" รายการที่ใช้อัตราสูงกว่าเกณฑ์มาตรฐานในแบบฟอร์ม ต้องมีเหตุผลประกอบการพิจารณา":""};
 var _r1=render;render=function(){_r1();if(ST.role==1&&!CLOUD){var nv=document.getElementById("nav");nv.innerHTML+='<div class="role" style="margin-top:12px"><label style="color:#cfe0f5">ชื่อผู้ใช้ (จำลอง)</label><input value="'+esc(ST.me)+'" onchange="ST.me=this.value||\'ผู้ยื่นทดสอบ\';save();render()"></div>'}};
-var API_URL=(typeof window!="undefined"&&window.API_URL)||"",CLOUD=!!API_URL,TOKEN="",USER=null,LS={},DT=0,RT=0,IND=["ok",""];
+var API_URL=(typeof window!="undefined"&&window.API_URL)||"",CLOUD=!!API_URL,TOKEN="",USER=null,LS={},DT=0,RT=0,FLUSH_PROMISE=null,FLUSH_AGAIN=false,IND=["ok",""];
 function emsg(e){var m=String(e&&e.message||e);return m=="FORBIDDEN"?"ไม่มีสิทธิ์ดำเนินการนี้":m=="CONFLICT"?"ข้อมูลถูกแก้ไขโดยผู้อื่นไปแล้ว ระบบจะโหลดข้อมูลล่าสุดให้":m=="Failed to fetch"?"เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ ตรวจสอบอินเทอร์เน็ตหรือ URL ใน config.js":m}
 function gv(i){return document.getElementById(i)}
 function api(a,d){return fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({a:a,t:TOKEN,d:d||{}})}).then(function(r){return r.json()}).then(function(r){if(!r.ok){if(r.e=="AUTH"){TOKEN="";try{sessionStorage.removeItem("asvt")}catch(x){}showLogin("เซสชันหมดอายุ กรุณาเข้าสู่ระบบอีกครั้ง")}throw new Error(r.e)}return r.d})}
@@ -325,12 +325,39 @@ function logout(){TOKEN="";USER=null;try{sessionStorage.removeItem("asvt")}catch
 function load(){return api("boot").then(function(r){USER=r.user;ST.role=USER.role;ST.me=USER.email;ST.cfg=r.cfg;CAP=+r.cfg.cap||50000;ST.cm=[{n:USER.name}];ST.users=r.users||[];ST.ps=r.projects||[];ST.ps.forEach(norm);ST.ps.forEach(function(p){LS[p.id]=JSON.stringify(p)});if(!ST.ps.some(function(p){return p.id==ST.cur}))ST.cur=ST.ps.length?ST.ps[0].id:null;return r})}
 function upd(np){norm(np);var f=0;for(var i=0;i<ST.ps.length;i++)if(ST.ps[i].id==np.id){ST.ps[i]=np;f=1}if(!f)ST.ps.push(np);LS[np.id]=JSON.stringify(np)}
 function canSave(p){if(!USER)return false;var r=USER.role;if(r==0)return true;if(r==1)return p.owner==USER.email&&(EDIT.indexOf(p.status)>-1||isAp(p.status));if(r==2)return isAp(p.status);return false}
-function flush(){clearTimeout(DT);var jobs=ST.ps.filter(function(p){return canSave(p)&&(p.sv||p.th||p.pi.name||p.bg)&&JSON.stringify(p)!==LS[p.id]});if(!jobs.length){ind("ok");return Promise.resolve()}
-return jobs.reduce(function(pr,p){return pr.then(function(){var snap=JSON.stringify(p);return api("save",{p:p,base:p.sv?p.ver:null}).then(function(r){var m={ver:r.p.ver,code:r.p.code,owner:r.p.owner,sv:1},b=JSON.parse(snap);for(var k in m){b[k]=m[k];p[k]=m[k]}LS[p.id]=JSON.stringify(b)})})},Promise.resolve()).then(function(){ind("ok")}).catch(function(e){if(String(e.message)=="CONFLICT"){alert(emsg(e));return load().then(function(){render()})}ind("err",emsg(e));throw e})}
-var _sv0=save;save=function(){if(!CLOUD)return _sv0();clearTimeout(DT);ind("saving");DT=setTimeout(function(){flush().catch(function(){})},1200)};
+/* Serialize cloud saves: never send two saves with the same project version at once. */
+function flush(){
+  clearTimeout(DT);
+  if(FLUSH_PROMISE){FLUSH_AGAIN=true;return FLUSH_PROMISE;}
+  function runBatch(){
+    var jobs=ST.ps.filter(function(p){return canSave(p)&&(p.sv||p.th||p.pi.name||p.bg)&&JSON.stringify(p)!==LS[p.id]});
+    if(!jobs.length){ind("ok");return Promise.resolve();}
+    return jobs.reduce(function(pr,p){return pr.then(function(){
+      var snap=JSON.stringify(p),base=p.sv?p.ver:null;
+      return api("save",{p:p,base:base}).then(function(r){
+        var m={ver:r.p.ver,code:r.p.code,owner:r.p.owner,sv:1},b=JSON.parse(snap);
+        for(var k in m){b[k]=m[k];p[k]=m[k];}
+        LS[p.id]=JSON.stringify(b);
+      });
+    });},Promise.resolve()).then(function(){ind("ok");});
+  }
+  FLUSH_PROMISE=runBatch().then(function(){
+    FLUSH_PROMISE=null;
+    /* If the form changed while the request was in flight, save the latest state next. */
+    if(FLUSH_AGAIN){FLUSH_AGAIN=false;return flush();}
+  }).catch(function(e){
+    FLUSH_PROMISE=null;FLUSH_AGAIN=false;
+    if(String(e.message)=="CONFLICT"){
+      alert(emsg(e));
+      return load().then(function(){render();});
+    }
+    ind("err",emsg(e));throw e;
+  });
+  return FLUSH_PROMISE;
+}
+var _sv0=save;save=function(){if(!CLOUD)return _sv0();clearTimeout(DT);ind("saving");DT=setTimeout(function(){flush().catch(function(){});},3000);};
 var _n2=norm;norm=function(p){_n2(p);if(CLOUD&&!p.sv){p.code="(รอรหัส)";p.owner=ST.me}};
-var _ap=applySt;applySt=function(id,v,n){if(!CLOUD)return _ap(id,v,n);ind("saving");return flush().then(function(){return api("status",{id:id,to:v,note:n||""})}).then(function(r){upd(r.p);ind("ok");mclose();render();return r}).catch(function(e){alert(emsg(e));ind("err",emsg(e));return load().then(function(){mclose();render()}).then(function(){throw e})})};
-var _subm=subm;subm=function(){if(!CLOUD)return _subm();var p=P(),m=miss(p);if(m.length){alert("ยังกรอกข้อมูลไม่ครบ:\n• "+m.join("\n• "));return}if(totT(p)>CAP){alert("งบประมาณเกินเพดาน "+fmt(CAP)+" บาท");return}applySt(p.id,"ส่งข้อเสนอแล้ว","ยื่นข้อเสนอโครงการ").then(function(){go("list")}).catch(function(){})};
+var _ap=applySt;applySt=function(id,v,n){if(!CLOUD)return _ap(id,v,n);ind("saving");flush().then(function(){return api("status",{id:id,to:v,note:n||""})}).then(function(r){upd(r.p);ind("ok");mclose();render()}).catch(function(e){alert(emsg(e));ind("err",emsg(e));load().then(function(){mclose();render()}).catch(function(){})})};
 var _rv=rv,_rn=rn;
 function rsync(){if(!CLOUD)return;clearTimeout(RT);RT=setTimeout(function(){var p=P(),r=p&&p.rev[rname()];if(!r)return;api("review",{id:p.id,s:r.s,n:r.n}).then(function(){LS[p.id]=JSON.stringify(p);ind("ok")}).catch(function(e){alert(emsg(e))})},900)}
 rv=function(i,v,m){_rv(i,v,m);rsync()};rn=function(v){_rn(v);rsync()};
