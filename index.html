@@ -377,7 +377,36 @@ function showPasswordChange(force,msg){var d=gv("lgx");if(!d){d=document.createE
 function changePassword(){api("password",{currentPassword:gv("oldpw").value,newPassword:gv("newpw").value,confirmPassword:gv("confpw").value}).then(function(){return load()}).then(hideLogin).catch(function(x){var m=gv("lgm");if(m)m.textContent=emsg(x)})}
 function doLogin(){TOKEN="";api("login",{email:gv("lge").value,password:gv("lgp").value}).then(function(r){TOKEN=r.t;try{sessionStorage.setItem("asvt",TOKEN)}catch(x){}if(r.mustChange){showPasswordChange(true,'กรุณาตั้งรหัสผ่านส่วนตัวก่อนเริ่มใช้งาน');return null}return load().then(hideLogin)}).catch(function(x){var m=gv("lgm");if(m)m.textContent=emsg(x)})}
 function logout(){TOKEN="";USER=null;try{sessionStorage.removeItem("asvt")}catch(x){}ST.ps=[];LS={};showLogin("")}
-function load(){return api("boot",{fy:String(ST.fy||2570)}).then(function(r){USER=r.user||{};USER.role=+USER.role;USER.roles=(Array.isArray(USER.roles)?USER.roles:[USER.role]).map(Number).filter(function(x,i,a){return isFinite(x)&&x>=0&&x<=4&&a.indexOf(x)===i;});if(!USER.roles.length)USER.roles=[USER.role];var selectedRole=+ST.role;ST.role=USER.roles.indexOf(selectedRole)>-1?selectedRole:USER.role;ST.me=USER.email;ST.cfg=r.cfg;ST.reviewers=r.reviewers||[];ST.fiscalYears=r.fiscalYears||["2570"];ST.fy=String(r.fiscalYear||ST.fiscalYears[0]||2570);ST.yearRights=r.yearRights||{};CAP=+r.cfg.cap||50000;if(typeof ST.fp!=="string"||(ST.fp&&STAT.indexOf(ST.fp)<0))ST.fp="";ST.cm=[{n:USER.name}];ST.users=r.users||[];ST.ps=r.projects||[];ST.ps.forEach(norm);ST.ps.forEach(function(p){LS[p.id]=JSON.stringify(p)});if(!ST.ps.some(function(p){return p.id==ST.cur}))ST.cur=ST.ps.length?ST.ps[0].id:null;return r})}
+function applyBootData(r){
+  USER=r.user||{};USER.role=+USER.role;
+  USER.roles=(Array.isArray(USER.roles)?USER.roles:[USER.role]).map(Number).filter(function(x,i,a){return isFinite(x)&&x>=0&&x<=4&&a.indexOf(x)===i;});
+  if(!USER.roles.length)USER.roles=[USER.role];
+  ST.role=USER.roles.indexOf(+ST.role)>-1?+ST.role:USER.role;
+  ST.me=USER.email;ST.cfg=r.cfg;ST.reviewers=r.reviewers||[];
+  ST.fiscalYears=r.fiscalYears||["2570"];ST.fy=String(r.fiscalYear||ST.fiscalYears[0]||2570);
+  ST.yearRights=r.yearRights||{};CAP=+r.cfg.cap||50000;
+  if(typeof ST.fp!=="string"||(ST.fp&&STAT.indexOf(ST.fp)<0))ST.fp="";
+  ST.cm=[{n:USER.name}];ST.users=r.users||[];ST.ps=r.projects||[];
+  ST.ps.forEach(norm);ST.ps.forEach(function(p){LS[p.id]=JSON.stringify(p)});
+  if(!ST.ps.some(function(p){return p.id==ST.cur}))ST.cur=ST.ps.length?ST.ps[0].id:null;
+  return r;
+}
+function load(){
+  var rememberedRole=Number(ST.role);
+  return api("boot",{fy:String(ST.fy||2570)}).then(function(first){
+    var u=first.user||{},roles=(Array.isArray(u.roles)?u.roles:[u.role]).map(Number);
+    var selected=roles.indexOf(rememberedRole)>-1?rememberedRole:Number(u.role);
+    USER={email:u.email,name:u.name,role:Number(u.role),roles:roles};
+    /* If a remembered role differs from the account's primary role, request a second
+       boot with that role so the server returns only the data permitted for it. */
+    if(selected!==Number(u.role)){
+      ST.role=selected;
+      return api("boot",{fy:String(ST.fy||2570)}).then(applyBootData);
+    }
+    ST.role=selected;
+    return applyBootData(first);
+  });
+}
 function upd(np){norm(np);var f=0;for(var i=0;i<ST.ps.length;i++)if(ST.ps[i].id==np.id){ST.ps[i]=np;f=1}if(!f)ST.ps.push(np);LS[np.id]=JSON.stringify(np)}
 function canSave(p){if(!USER)return false;var r=+ST.role;if(r==0)return true;if(r==1)return p.owner==USER.email&&(EDIT.indexOf(p.status)>-1||isAp(p.status));if(r==2)return isAp(p.status);return false}
 /* Serialize cloud saves: never send two saves with the same project version at once. */
@@ -474,7 +503,7 @@ function saveAssignments(id){var p=G(id),chosen=[].slice.call(document.querySele
 var _formMulti=form;form=function(){var p=P();if(!p)return _formMulti();var h=_formMulti();if(ST.role===2){h+=revCard(p);h+=assignmentCard(p);}return h};
 var _docMulti=doc;doc=function(){var h=_docMulti();if(ST.role===4){var p=P();if(p)h+=revCard(p);}return h};
 var _listMulti=list;list=function(){var h=_listMulti();if(ST.role===4)h=h.replace(/<select[^>]*onchange="chSt\([\s\S]*?<\/select>/g,'');return h};
-var _commMulti=comm;comm=function(){if(!CLOUD)return _commMulti();var adm=USER&&ST.role===0;function checks(id,rs){return ROLES.map(function(r,k){return'<label style="display:inline-flex;align-items:center;gap:4px;margin:3px 8px 3px 0;color:var(--tx);font-size:12px"><input type="checkbox" id="'+id+'_'+k+'" '+(rs.indexOf(k)>-1?'checked':'')+' '+'> '+esc(r)+'</label>'}).join('')}
+var _commMulti=comm;comm=function(){if(!CLOUD)return _commMulti();var adm=USER&&ST.role===0;function checks(id,rs){return ROLES.map(function(r,k){return'<label style="display:inline-flex;align-items:center;gap:4px;margin:3px 8px 3px 0;color:var(--tx);font-size:12px"><input type="checkbox" id="'+id+'_'+k+'" '+(rs.indexOf(k)>-1?'checked':'')+(adm?'':' disabled')+'> '+esc(r)+'</label>'}).join('')}
 return ttl('👥 จัดการผู้ใช้งานและหลายบทบาท')+'<div class="card"><h3>รายชื่อผู้ใช้</h3><div class="wrap"><table><tr><th>อีเมล</th><th>ชื่อ-สกุล</th><th>บทบาทที่ได้รับสิทธิ์</th><th>ใช้งาน</th><th>รหัสผ่านใหม่</th><th>จัดการ</th></tr>'+ST.users.map(function(u,i){var rs=(u.roles||[u.role]).map(Number);return'<tr><td>'+esc(u.email)+'</td><td><input id="un'+i+'" value="'+esc(u.name)+'" '+(adm?'':'disabled')+'></td><td>'+checks('urs'+i,rs)+'</td><td><input type="checkbox" id="ua'+i+'" '+(u.active?'checked':'')+' '+(adm?'':'disabled')+'></td><td><input id="up'+i+'" type="password" placeholder="เว้นว่าง = ไม่เปลี่ยน" '+(adm?'':'disabled')+'></td><td>'+(adm?'<button class="btn s" onclick="usvMulti('+i+')">บันทึก</button> '+(u.email==='anuyachai@gmail.com'||(USER&&u.email===USER.email)?'':'<button class="btn s r" onclick="deleteUser('+JSON.stringify(u.email).replace(/"/g,'&quot;')+')">ลบ</button>'):'')+'</td></tr>'}).join('')+'</table></div><div class="hint">สามารถกำหนดบทบาท Admin ร่วมกับบทบาทอื่นได้ โดยระบบจะใช้สิทธิ์ตามบทบาทที่เลือกใช้งานในขณะนั้น</div></div>'+(adm?'<div class="card"><h3>➕ เพิ่มผู้ใช้</h3><div class="g2"><div><label>อีเมล</label><input id="ne"></div><div><label>ชื่อ-สกุล</label><input id="nn"></div><div><label>รหัสผ่านเริ่มต้น</label><input id="np" type="password"></div></div><label>บทบาทที่ได้รับสิทธิ์ (เลือกได้หลายบทบาท)</label>'+checks('newrole',[1])+'<button class="btn" style="margin-top:10px" onclick="uaddMulti()">เพิ่มผู้ใช้</button></div>':'')};
 function selectedRoles(prefix){return ROLES.map(function(_,i){var e=gv(prefix+'_'+i);return e&&e.checked?i:null}).filter(function(x){return x!==null})}
 function usvMulti(i){var u=ST.users[i],rs=selectedRoles('urs'+i);if(!rs.length)return alert('กรุณาเลือกอย่างน้อยหนึ่งบทบาท');ucall({email:u.email,name:gv('un'+i).value,roles:rs,role:rs[0],active:gv('ua'+i).checked,pin:gv('up'+i).value})}
@@ -508,15 +537,42 @@ go = function(pg){
   }
   _goAdminAccess(pg);
 };
-/* บัญชีที่ได้รับ Admin ต้องเห็นทางเข้าเมนูจัดการผู้ใช้เสมอ แม้กำลังทำงานในบทบาทอื่น */
+/* ===== ASV70 FIX: แสดงตัวเลือกบทบาทจริงในโหมด Cloud =====
+   สาเหตุเดิม: render() ถูกประกาศทับหลายชั้น ทำให้ wrapper ที่สร้างตัวเลือกบทบาทไม่ถูกเรียก
+   วิธีแก้: รวมตัวเลือกบทบาทและปีงบประมาณไว้ใน render ชั้นสุดท้าย และป้องกันการสร้างซ้ำ */
 var _renderAdminAccess = render;
 render = function(){
   _renderAdminAccess();
-  if(CLOUD && USER && (USER.roles||[USER.role]).map(Number).indexOf(0)>-1){
-    var nav=gv('nav');
-    if(nav && !Array.prototype.some.call(nav.querySelectorAll('button.nav'),function(b){return b.textContent.indexOf('จัดการผู้ใช้')>-1;})){
-      nav.insertAdjacentHTML('beforeend','<button class="nav" onclick="go(\'comm\')">👥 จัดการผู้ใช้ / สิทธิ์ระบบ</button>');
-    }
+  if(!CLOUD || !USER) return;
+  var nav=gv('nav');
+  if(!nav) return;
+
+  /* ลบตัวเลือกปีงบประมาณจาก wrapper รุ่นก่อน เพื่อไม่ให้ซ้ำทุกครั้งที่ render */
+  Array.prototype.slice.call(nav.querySelectorAll('select[onchange*="switchFiscalYear"]')).forEach(function(el){
+    var card=el.closest('.ucard'); if(card) card.remove();
+  });
+  /* ลบตัวเลือกบทบาทเก่าหากมี เพื่อให้เหลือชุดเดียว */
+  var oldRole=gv('asvRolePicker'); if(oldRole) oldRole.remove();
+  var oldYear=gv('asvFiscalPicker'); if(oldYear) oldYear.remove();
+
+  var roles=(USER.roles||[USER.role]).map(Number).filter(function(r,i,a){return r>=0&&r<ROLES.length&&a.indexOf(r)===i;});
+  if(!roles.length) roles=[Number(USER.role)||0];
+  var roleOptions=roles.map(function(r){return '<option value="'+r+'"'+(r===Number(ST.role)?' selected':'')+'>'+esc(ROLES[r])+'</option>';}).join('');
+  var roleHtml='<div class="ucard" id="asvRolePicker" style="margin:4px 0 10px;background:rgba(255,255,255,.12)"><label style="color:#cfe0f5;font-weight:700">🔐 เลือกบทบาทการทำงาน</label><select aria-label="เลือกบทบาทการทำงาน" onchange="switchRole(this.value)" style="width:100%;margin-top:6px">'+roleOptions+'</select><div class="hint" style="color:#dbeafe;margin-top:6px">สิทธิ์ที่บัญชีนี้ได้รับ: '+esc(roleNames(roles).join(' / '))+'</div></div>';
+  var years=(ST.fiscalYears||['2570']).map(String);
+  if(!years.length) years=['2570'];
+  var yearOptions=years.map(function(y){return '<option value="'+esc(y)+'"'+(String(y)===String(ST.fy)?' selected':'')+'>'+esc(y)+'</option>';}).join('');
+  var yearHtml='<div class="ucard" id="asvFiscalPicker" style="margin:4px 0 10px;background:rgba(255,255,255,.12)"><label style="color:#cfe0f5;font-weight:700">🗓️ ปีงบประมาณที่กำลังใช้งาน</label><select aria-label="เลือกปีงบประมาณ" onchange="switchFiscalYear(this.value)" style="width:100%;margin-top:6px">'+yearOptions+'</select></div>';
+  nav.insertAdjacentHTML('afterbegin',roleHtml+yearHtml);
+
+  /* แสดงบทบาทที่กำลังใช้งานจริงในการ์ดบัญชีผู้ใช้ */
+  var info=nav.querySelector('.ucard:not(#asvRolePicker):not(#asvFiscalPicker)');
+  if(info){var hint=info.querySelector('.hint');if(hint)hint.textContent=ROLES[Number(ST.role)]+' · '+USER.email;}
+
+  /* บัญชีที่มี Admin ต้องเห็นเมนูจัดการผู้ใช้เสมอ */
+  if(roles.indexOf(0)>-1 && !Array.prototype.some.call(nav.querySelectorAll('button.nav'),function(b){return b.textContent.indexOf('จัดการผู้ใช้')>-1;})){
+    nav.insertAdjacentHTML('beforeend','<button class="nav" onclick="go(\'comm\')">👥 จัดการผู้ใช้ / สิทธิ์ระบบ</button>');
   }
+  var legacy=gv('roleSel'); if(legacy&&legacy.closest('.role'))legacy.closest('.role').style.display='none';
 };
 </script></body></html>
