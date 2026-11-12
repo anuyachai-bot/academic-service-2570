@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>ระบบบริหารจัดการงานบริการวิชาการรับใช้สังคม คณะรัฐศาสตร์และรัฐประศาสนศาสตร์ มหาวิทยาลัยเชียงใหม่</title>
+<!DOCTYPE html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>ระบบบริหารจัดการงานบริการวิชาการรับใช้สังคม คณะรัฐศาสตร์และรัฐประศาสนศาสตร์ มหาวิทยาลัยเชียงใหม่</title>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--pri:#173C6E;--pri2:#2563a8;--acc:#0ea5a4;--bg:#eef3f9;--card:#fff;--tx:#1b2433;--mut:#64748b;--bd:#dbe4f0;--ok:#16a34a;--bad:#dc2626;--warn:#d97706;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -95,9 +95,9 @@ body.cloud .role{display:none}
 <div class="role"><label style="color:#cfe0f5">ตัวเลือกบทบาทตัวอย่าง (โหมดทดสอบ)</label><select id="roleSel" onchange="ST.role=this.value;ST.page=NAV[0].id;save();render()"></select></div><div id="nav"></div></aside>
 <main id="main"></main>
 <script>
-var ROLES=["Admin","ผู้เสนอโครงการ / ชุมชน","เจ้าหน้าที่บริการวิชาการ","กรรมการบริการวิชาการ","ผู้บริหาร (Executive View)"];
-var STAT=["ร่าง / บันทึกฉบับร่าง","ส่งข้อเสนอแล้ว","รอตรวจสอบเอกสาร","ส่งกลับแก้ไขข้อเสนอ","รอผลการพิจารณา","ผ่านการคัดเลือก","ไม่ผ่านการพิจารณา","ประกาศรายชื่อแล้ว (ได้รับทุน)","อนุมัติทุน","รอทำสัญญา","ลงนามสัญญาแล้ว","ทำสัญญาแล้ว","ขออนุมัติดำเนินโครงการ/เบิกงวด 1","อนุมัติเบิกเงินงวด 1 แล้ว","เบิกเงินงวด 1","อยู่ระหว่างดำเนินโครงการ","รายงานความก้าวหน้าแล้ว","ส่งหลักฐานเบิกจ่าย/รายงานผล","เบิกจ่ายค่าใช้จ่ายแล้ว","รอตรวจสอบปิดโครงการ","ปิดโครงการสมบูรณ์","ยกเลิกโครงการ"];
-var ALLOW=[STAT,["ร่าง / บันทึกฉบับร่าง","ส่งข้อเสนอแล้ว","ขออนุมัติดำเนินโครงการ/เบิกงวด 1","รายงานความก้าวหน้าแล้ว","ส่งหลักฐานเบิกจ่าย/รายงานผล"],["รอตรวจสอบเอกสาร","ส่งกลับแก้ไขข้อเสนอ","รอผลการพิจารณา","ผ่านการคัดเลือก","ไม่ผ่านการพิจารณา","ประกาศรายชื่อแล้ว (ได้รับทุน)","อนุมัติทุน","รอทำสัญญา","ลงนามสัญญาแล้ว","ทำสัญญาแล้ว","อนุมัติเบิกเงินงวด 1 แล้ว","เบิกเงินงวด 1","อยู่ระหว่างดำเนินโครงการ","เบิกจ่ายค่าใช้จ่ายแล้ว","รอตรวจสอบปิดโครงการ","ปิดโครงการสมบูรณ์","ยกเลิกโครงการ"],[],[]];
+var ROLES=["Admin","ผู้ยื่นข้อเสนอโครงการ","เจ้าหน้าที่หน่วยบริการวิชาการ","คณะกรรมการบริการวิชาการรับใช้สังคม","ผู้บริหาร"];
+var STAT=["ร่าง","รอตรวจสอบ","ผ่าน","ไม่ผ่าน","อนุมัติทุน","ทำสัญญา","เบิกเงินงวด 1","เบิกเงินงวด 2","ปิดโครงการ"];
+var ALLOW=[STAT,["ร่าง","รอตรวจสอบ"],["รอตรวจสอบ","ผ่าน","ไม่ผ่าน","ทำสัญญา","เบิกเงินงวด 1","เบิกเงินงวด 2","ปิดโครงการ"],["ผ่าน","ไม่ผ่าน","อนุมัติทุน"],["อนุมัติทุน"]];
 var MENU=[["dash","📊 แดชบอร์ด",[0,1,2,3,4]],["form","📝 ยื่นข้อเสนอโครงการ",[0,1]],["list","📁 รายการ / สถานะโครงการ",[0,1,2,3,4]],["follow","💰 ติดตามผล / เบิกจ่าย / SROI",[0,2]],["comm","👥 จัดการผู้ใช้ / สิทธิ์ระบบ",[0]],["fy","🗓️ จัดการปีงบประมาณ",[0]]];
 var MON=["ต.ค.69","พ.ย.69","ธ.ค.69","ม.ค.70","ก.พ.70","มี.ค.70","เม.ย.70","พ.ค.70","มิ.ย.70","ก.ค.70","ส.ค.70","ก.ย.70"];
 var SDG=["ขจัดความยากจน","ขจัดความหิวโหย","สุขภาพและความเป็นอยู่ที่ดี","การศึกษาที่มีคุณภาพ","ความเท่าเทียมทางเพศ","น้ำสะอาดและสุขาภิบาล","พลังงานสะอาดและราคาถูก","งานที่ดีและเศรษฐกิจเติบโต","อุตสาหกรรม นวัตกรรม โครงสร้างพื้นฐาน","ลดความเหลื่อมล้ำ","เมืองและชุมชนที่ยั่งยืน","การบริโภคและผลิตอย่างรับผิดชอบ","การรับมือการเปลี่ยนแปลงสภาพภูมิอากาศ","ทรัพยากรทางทะเล","ระบบนิเวศบนบก","สันติภาพ ยุติธรรม สถาบันเข้มแข็ง","ความร่วมมือเพื่อการพัฒนาที่ยั่งยืน"];
@@ -161,7 +161,7 @@ h+=budForm(p);[].forEach(function(A,a){h+='<h4 style="color:var(--pri2);margin:1
 A.forEach(function(rows,c){h+='<tr><th colspan="7">'+CATS[c]+' <span class="hint">(รวม <span id="tc'+a+c+'"></span>)</span> <button class="btn s g" onclick="P().bud['+a+"]["+c+'].push({n:\'\',q:\'\',p:\'\',t:1,u:\'\'});render()">+ แถว</button></th></tr>';
 rows.forEach(function(r,i){var b="P().bud["+a+"]["+c+"]["+i+"].";h+="<tr><td><input value=\""+esc(r.n)+'" oninput="'+b+'n=this.value;save()"></td><td><input type="number" min="0" style="width:80px" value="'+esc(r.q)+'" oninput="'+b+'q=this.value;calc()"></td><td><input style="width:70px" value="'+esc(r.u)+'" oninput="'+b+'u=this.value;save()"></td><td><input type="number" min="0" style="width:100px" value="'+esc(r.p)+'" oninput="'+b+'p=this.value;calc()"></td><td><input type="number" min="0" style="width:70px" value="'+esc(r.t)+'" oninput="'+b+'t=this.value;calc()"></td><td id="r'+a+c+i+'">0</td><td><button class="btn s r" onclick="P().bud['+a+"]["+c+"].splice("+i+',1);if(!P().bud['+a+"]["+c+'].length)P().bud['+a+"]["+c+"].push({n:\'\',q:\'\',p:\'\',t:1,u:\'\'});render()\">ลบ</button></td></tr>"})});h+="</table></div>"});
 h+='<div id="warn" class="hint" style="color:#d97706;font-weight:600;margin-top:8px"></div><div id="cap" class="cap"></div><div class="bar" style="margin-top:8px"><i id="capb"></i></div></div>';
-h+='<div class="card"><h3>📎 เอกสารแนบข้อเสนอโครงการ</h3><input type="file" multiple onchange="att(this,'+p.id+',\'p\')">'+fl(p.files,p.id,"p")+'<div class="hint">แนบได้ไฟล์ละไม่เกิน 1.5 MB — ไฟล์จัดเก็บใน Google Drive ของระบบเมื่อใช้งานออนไลน์</div></div>';
+if(ST.role!==1)h+='<div class="card"><h3>เอกสารแนบข้อเสนอโครงการ</h3><input type="file" multiple onchange="att(this,'+p.id+',\'p\')">'+fl(p.files,p.id,"p")+'<div class="hint">แนบได้ไฟล์ละไม่เกิน 1.5 MB — ไฟล์จัดเก็บใน Google Drive ของระบบเมื่อใช้งานออนไลน์</div></div>';
 h+='<div class="card"><h3>13. การลงนามผู้เสนอโครงการ</h3><div class="g2">'+inp("sig.name","ชื่อผู้ลงนาม")+inp("sig.date","วันที่","date")+'</div><label>ลายเซ็น (วาดด้วยเมาส์/นิ้ว)</label><canvas id="sig" class="sig" width="420" height="150"></canvas><div><button type="button" class="btn s g" onclick="clrSig()">ล้างลายเซ็น</button></div></div></fieldset>';
 if(!ro)h+='<div class="row noprint"><button class="btn g" onclick="manualSave()">บันทึกร่าง</button><button class="btn o" onclick="subm()">ยื่นข้อเสนอโครงการ</button></div>';return h}
 function calc(){var p=P();if(!p)return;p.bud.forEach(function(A,a){A.forEach(function(rows,c){rows.forEach(function(r,i){var e=document.getElementById("r"+a+c+i);if(e)e.textContent=fmt(rowT(r))});var e=document.getElementById("tc"+a+c);if(e)e.textContent=fmt(catT(p,a,c))});var e=document.getElementById("ta"+a);if(e)e.textContent=fmt(actT(p,a))});
@@ -236,28 +236,19 @@ s+='<tr><th style="text-align:right">รวมกิจกรรมที่ '+(
 function norm(p){p.fiscalYear=String(p.fiscalYear||2570);p.outcomes=p.outcomes||{satisfaction:"",participants:"",knowledge:""};p.acts=p.acts||[];p.acts.forEach(function(a){a.outcomes=a.outcomes||{satisfaction:"",participants:"",knowledge:""};});var M={"ร่าง":"ร่าง / บันทึกฉบับร่าง","รอตรวจสอบ":"รอตรวจสอบเอกสาร","ทำสัญญา":"ทำสัญญาแล้ว","ปิดโครงการ":"ปิดโครงการสมบูรณ์"};if(M[p.status])p.status=M[p.status];p.objs=p.objs||[p.obj||"","",""];var t=p.tg;if(t.dc==null)t.dc=t.count||"";if(t.ic==null)t.ic="";p.bd=p.bd||[{},{},{}];p.acts.forEach(function(a,i){if(!a.n&&i<3)a.n=DEF[i];if(!a.spend)a.spend=[{d:"",m:""}]});p.files=p.files||[]}
 var _np=newP;newP=function(){var p=_np();norm(p);return p};
 ST.ps.forEach(norm);
-var PH=[
-  {t:"ขั้นตอนที่ 1 ยื่นและพิจารณาข้อเสนอ",i:["ร่าง / บันทึกฉบับร่าง","ส่งข้อเสนอแล้ว","รอตรวจสอบเอกสาร","ส่งกลับแก้ไขข้อเสนอ","รอผลการพิจารณา"]},
-  {t:"ขั้นตอนที่ 2 ประกาศผลผู้ได้รับทุน",i:["ผ่านการคัดเลือก","ไม่ผ่านการพิจารณา","ประกาศรายชื่อแล้ว (ได้รับทุน)","อนุมัติทุน"]},
-  {t:"ขั้นตอนที่ 3 การจัดทำและลงนามสัญญา",i:["รอทำสัญญา","ลงนามสัญญาแล้ว","ทำสัญญาแล้ว"]},
-  {t:"ขั้นตอนที่ 4 ขออนุมัติดำเนินงานและเบิกงวด 1",i:["ขออนุมัติดำเนินโครงการ/เบิกงวด 1","อนุมัติเบิกเงินงวด 1 แล้ว","เบิกเงินงวด 1"]},
-  {t:"ขั้นตอนที่ 5 ดำเนินโครงการและติดตามคุณภาพ",i:["อยู่ระหว่างดำเนินโครงการ","รายงานความก้าวหน้าแล้ว","รอรายงานความก้าวหน้า","รอตรวจสอบรายงาน"]},
-  {t:"ขั้นตอนที่ 6 เบิกจ่ายและรายงานผล",i:["ส่งหลักฐานเบิกจ่าย/รายงานผล","เบิกเงินงวด 2","เบิกจ่ายค่าใช้จ่ายแล้ว","รอส่งรายงานฉบับสมบูรณ์","รอตรวจสอบรายงานฉบับสมบูรณ์"]},
-  {t:"ขั้นตอนที่ 7 ปิดโครงการและติดตามผลลัพธ์",i:["รอตรวจสอบปิดโครงการ","รอเคลียร์ค่าใช้จ่าย","ปิดโครงการสมบูรณ์","ยกเลิกโครงการ"]}
-];
+var PH=[{t:"ระยะที่ 1 การเสนอขอรับทุน",i:["ร่าง / บันทึกฉบับร่าง","ส่งข้อเสนอแล้ว","รอตรวจสอบเอกสาร","รอเอกสารเพิ่มเติม","อยู่ระหว่างแก้ไข"]},
+{t:"ระยะที่ 2 การพิจารณาและอนุมัติ",i:["รอผลการพิจารณา","ผ่าน","ผ่านแบบมีเงื่อนไข","ไม่ผ่าน","รออนุมัติทุน","อนุมัติทุน"]},
+{t:"ระยะที่ 3 การทำสัญญาและเตรียมดำเนินงาน",i:["รอทำสัญญา","ทำสัญญาแล้ว","รอเริ่มดำเนินโครงการ"]},
+{t:"ระยะที่ 4 การดำเนินโครงการและเบิกจ่าย",i:["อยู่ระหว่างดำเนินโครงการ","เบิกเงินงวด 1","เบิกเงินงวด 2","รอเบิกเงินงวดถัดไป","รอรายงานความก้าวหน้า","รอตรวจสอบรายงาน"]},
+{t:"ระยะที่ 5 การรายงานและเคลียร์ค่าใช้จ่าย",i:["รอส่งรายงานฉบับสมบูรณ์","รอตรวจสอบรายงานฉบับสมบูรณ์","รอเคลียร์ค่าใช้จ่าย","รอแก้ไขเอกสารปิดโครงการ"]},
+{t:"ระยะที่ 6 การปิดโครงการ",i:["ปิดโครงการสมบูรณ์","ยกเลิกโครงการ"]}];
 STAT=PH.reduce(function(a,g){return a.concat(g.i)},[]);
-ALLOW=[
-  STAT,
-  ["ร่าง / บันทึกฉบับร่าง","ส่งข้อเสนอแล้ว","ขออนุมัติดำเนินโครงการ/เบิกงวด 1","รายงานความก้าวหน้าแล้ว","ส่งหลักฐานเบิกจ่าย/รายงานผล"],
-  ["รอตรวจสอบเอกสาร","ส่งกลับแก้ไขข้อเสนอ","รอผลการพิจารณา","ผ่านการคัดเลือก","ไม่ผ่านการพิจารณา","ประกาศรายชื่อแล้ว (ได้รับทุน)","อนุมัติทุน","รอทำสัญญา","ลงนามสัญญาแล้ว","ทำสัญญาแล้ว","อนุมัติเบิกเงินงวด 1 แล้ว","เบิกเงินงวด 1","อยู่ระหว่างดำเนินโครงการ","เบิกจ่ายค่าใช้จ่ายแล้ว","รอตรวจสอบปิดโครงการ","ปิดโครงการสมบูรณ์","ยกเลิกโครงการ"],
-  [],
-  []
-];
-function isAp(s){return /ประกาศรายชื่อแล้ว|อนุมัติทุน|ทำสัญญา|เบิกเงิน|อยู่ระหว่างดำเนิน|รายงานความก้าวหน้า|ส่งหลักฐาน|ปิดโครงการสมบูรณ์/.test(s);}
+ALLOW=[STAT,["ร่าง / บันทึกฉบับร่าง","ส่งข้อเสนอแล้ว","อยู่ระหว่างแก้ไข","รอตรวจสอบรายงาน","รอตรวจสอบรายงานฉบับสมบูรณ์"],["รอตรวจสอบเอกสาร","รอเอกสารเพิ่มเติม","รอผลการพิจารณา","รออนุมัติทุน"].concat(PH[2].i,PH[3].i,PH[4].i,PH[5].i),[],["อนุมัติทุน","ไม่ผ่าน","ยกเลิกโครงการ"]];
+function isAp(s){return STAT.indexOf(s)>=STAT.indexOf("อนุมัติทุน")&&s!="ยกเลิกโครงการ"}
 function phOf(s){for(var i=0;i<PH.length;i++)if(PH[i].i.indexOf(s)>-1)return i;return -1}
 function selOpts(al){return STAT.map(function(x,i){return al.indexOf(x)>-1?'<option value="'+esc(x)+'">'+(i+1)+'. '+esc(x)+'</option>':""}).join("")}
-function tag(s){var c=/ไม่ผ่าน|ยกเลิก/.test(s)?"bad":/ส่งกลับแก้ไข/.test(s)?"bad":/^รอ|ร่าง|อยู่ระหว่างแก้ไข|ส่งข้อเสนอ/.test(s)?"w":/ผ่าน|ประกาศ|อนุมัติ|ทำสัญญา|เบิก|ดำเนิน|ปิดโครงการสมบูรณ์/.test(s)?"ok":"",i=phOf(s);return'<span class="tag '+c+'">'+esc(s)+'</span>'+(i>-1?'<div class="hint" style="font-size:11px;margin-top:2px">'+esc(PH[i].t.split(" ").slice(0,2).join(" "))+'</div>':'')}
-var PC=["#173C6E","#2563a8","#0e7490","#0ea5a4","#7c3aed","#d97706","#16a34a"];
+function tag(s){var c=/ไม่ผ่าน|ยกเลิก/.test(s)?"bad":/^รอ|ร่าง|อยู่ระหว่างแก้ไข|ส่งข้อเสนอ/.test(s)?"w":/ผ่าน|อนุมัติทุน|ปิดโครงการสมบูรณ์|ทำสัญญาแล้ว|เบิก|ดำเนิน/.test(s)?"ok":"",i=phOf(s);return'<span class="tag '+c+'">'+s+"</span>"+(i>-1?'<div class="hint" style="font-size:11px;margin-top:2px">'+PH[i].t.split(" ").slice(0,2).join(" ")+"</div>":"")}
+var PC=["#173C6E","#7c3aed","#0ea5a4","#f59e0b","#ec4899","#22c55e"];
 function fk(v){return v>=1000?(v/1000).toFixed(v%1000?1:0)+"k":""+v}
 function cg(d,t){var a=0;return t?d.map(function(x){var f=a;a+=x[1]/t*100;return x[2]+" "+f+"% "+a+"%"}).join(","):"#cbd5e1 0 100%"}
 function lgd(d){return'<div class="lg">'+d.filter(function(x){return x[1]>0}).map(function(x){return'<span><i style="background:'+x[2]+'"></i>'+x[0]+" ("+(x[3]||fmt(x[1]))+")</span>"}).join("")+"</div>"}
@@ -514,27 +505,8 @@ function reviewCompleteDraft(r){return !!(r&&Array.isArray(r.s)&&r.s.length===5&
 function assignmentCard(p){if(!CLOUD||ST.role!==2||p.status!=='รอผลการพิจารณา')return '';var selected=p.assignedReviewers||[];if(p.assignmentLocked||selected.length)return '<div class="card"><h3>👥 การมอบหมายกรรมการประเมินโครงการ</h3><div class="cap ok">บันทึกการมอบหมายกรรมการเรียบร้อยแล้ว ไม่สามารถแก้ไขได้</div><div class="hint">มอบหมายแล้ว '+selected.length+' คน</div></div>';var opts=(ST.reviewers||[]).map(function(u){return'<label style="display:flex;align-items:center;gap:8px;color:var(--tx);margin:5px 0"><input type="checkbox" class="reviewer-choice" value="'+esc(u.email)+'" '+(selected.indexOf(u.email)>-1?'checked':'')+'> '+esc(u.name)+' <span class="hint">'+esc(u.email)+'</span></label>'}).join('');return'<div class="card"><h3>👥 มอบหมายกรรมการประเมินโครงการ</h3><div class="hint">เลือกกรรมการได้หลายคนโดยไม่จำกัดจำนวน รายชื่อแสดงเฉพาะผู้ใช้ที่ได้รับสิทธิ์กรรมการ</div>'+(opts||'<div class="hint">ยังไม่มีบัญชีที่ได้รับสิทธิ์กรรมการ กรุณาให้ผู้ดูแลระบบกำหนดสิทธิ์ก่อน</div>')+'<button class="btn" style="margin-top:10px" onclick="saveAssignments('+p.id+')">บันทึกการมอบหมายกรรมการ</button><div class="hint">มอบหมายแล้ว '+selected.length+' คน</div></div>'}
 function saveAssignments(id){var p=G(id),chosen=[].slice.call(document.querySelectorAll('.reviewer-choice:checked')).map(function(x){return x.value});api('assign',{id:id,reviewers:chosen}).then(function(r){upd(r.p);render();alert('บันทึกการมอบหมายกรรมการ '+chosen.length+' คนแล้ว')}).catch(function(e){alert(emsg(e))})}
 /* Executive role is read-only: decisions are made by Staff. */
-var _formMulti=form;
-form=function(){
-  var p=P();
-  if(!p)return _formMulti();
-  var h=_formMulti();
-  h=workflowProgressBar(p)+h;
-  if(ST.role===2){h+=revCard(p);h+=assignmentCard(p);}
-  h+=workflowActionsCard(p);
-  return h;
-};
-var _docMulti=doc;
-doc=function(){
-  var p=P();
-  var h=_docMulti();
-  if(p){
-    h=workflowProgressBar(p)+h;
-    if(ST.role===4){h+=revCard(p);}
-    h+=workflowActionsCard(p);
-  }
-  return h;
-};
+var _formMulti=form;form=function(){var p=P();if(!p)return _formMulti();var h=_formMulti();if(ST.role===2){h+=revCard(p);h+=assignmentCard(p);}return h};
+var _docMulti=doc;doc=function(){var h=_docMulti();if(ST.role===4){var p=P();if(p)h+=revCard(p);}return h};
 var _listMulti=list;list=function(){var h=_listMulti();if(ST.role===4)h=h.replace(/<select[^>]*onchange="chSt\([\s\S]*?<\/select>/g,'');return h};
 var _commMulti=comm;comm=function(){if(!CLOUD)return _commMulti();var adm=USER&&ST.role===0;function checks(id,rs){return ROLES.map(function(r,k){return'<label style="display:inline-flex;align-items:center;gap:4px;margin:3px 8px 3px 0;color:var(--tx);font-size:12px"><input type="checkbox" id="'+id+'_'+k+'" '+(rs.indexOf(k)>-1?'checked':'')+(adm?'':' disabled')+'> '+esc(r)+'</label>'}).join('')}
 return ttl('👥 จัดการผู้ใช้งานและหลายบทบาท')+'<div class="card"><h3>รายชื่อผู้ใช้</h3><div class="wrap"><table><tr><th>อีเมล</th><th>ชื่อ-สกุล</th><th>บทบาทที่ได้รับสิทธิ์</th><th>ใช้งาน</th><th>รหัสผ่านใหม่</th><th>จัดการ</th></tr>'+ST.users.map(function(u,i){var rs=(u.roles||[u.role]).map(Number);return'<tr><td>'+esc(u.email)+'</td><td><input id="un'+i+'" value="'+esc(u.name)+'" '+(adm?'':'disabled')+'></td><td>'+checks('urs'+i,rs)+'</td><td><input type="checkbox" id="ua'+i+'" '+(u.active?'checked':'')+' '+(adm?'':'disabled')+'></td><td><input id="up'+i+'" type="password" placeholder="เว้นว่าง = ไม่เปลี่ยน" '+(adm?'':'disabled')+'></td><td>'+(adm?'<button class="btn s" onclick="usvMulti('+i+')">บันทึก</button> '+(u.email==='anuyachai@gmail.com'||(USER&&u.email===USER.email)?'':'<button class="btn s r" onclick="deleteUser('+JSON.stringify(u.email).replace(/"/g,'&quot;')+')">ลบ</button>'):'')+'</td></tr>'}).join('')+'</table></div><div class="hint">สามารถกำหนดบทบาท Admin ร่วมกับบทบาทอื่นได้ โดยระบบจะใช้สิทธิ์ตามบทบาทที่เลือกใช้งานในขณะนั้น</div></div>'+(adm?'<div class="card"><h3>➕ เพิ่มผู้ใช้</h3><div class="g2"><div><label>อีเมล</label><input id="ne"></div><div><label>ชื่อ-สกุล</label><input id="nn"></div><div><label>รหัสผ่านเริ่มต้น</label><input id="np" type="password"></div></div><label>บทบาทที่ได้รับสิทธิ์ (เลือกได้หลายบทบาท)</label>'+checks('newrole',[1])+'<button class="btn" style="margin-top:10px" onclick="uaddMulti()">เพิ่มผู้ใช้</button></div>':'')};
@@ -546,302 +518,18 @@ function uaddMulti(){var rs=selectedRoles('newrole');if(!rs.length)return alert(
 /* ===== Multi-year budget, project outcome metrics and single-project tracking ===== */
 ST.fy=String(ST.fy||2570);ST.fiscalYears=ST.fiscalYears||['2570'];ST.followId=ST.followId||null;
 function switchFiscalYear(v){var next=String(v);if(!next||next===String(ST.fy))return;clearTimeout(DT);flush().then(function(){ST.fy=next;ST.cur=null;ST.followId=null;return load()}).then(function(){ST.page='dash';render()}).catch(function(e){alert(emsg(e))})}
-function addFiscalYear(){var el=gv('newFiscalYear'),y=el&&String(el.value||'').trim();if(!/^25\d{2}$/.test(y||''))return alert('กรุณาระบุปีงบประมาณ พ.ศ. 4 หลัก เช่น 2571');if((ST.fiscalYears||[]).indexOf(y)>-1)return alert('มีปีงบประมาณนี้แล้ว');ST.yearRights=ST.yearRights||{};(ST.users||[]).forEach(function(u,i){ST.yearRights[u.email]=(ST.fiscalYears||[]).filter(function(x){var e=gv('fy_'+i+'_'+x);return e&&e.checked;});});if(ST.fiscalYears.indexOf(y)<0)ST.fiscalYears.push(y);ST.fiscalYears.sort();if(CLOUD){var rights={};(ST.users||[]).forEach(function(u,i){rights[u.email]=(ST.fiscalYears||[]).filter(function(yy){var e=gv('fy_'+i+'_'+yy);return (e&&e.checked)||yy===y;});});api('yearSave',{years:ST.fiscalYears,rights:rights}).then(function(r){ST.fiscalYears=r.fiscalYears||ST.fiscalYears;ST.yearRights=r.yearRights||{};return load()}).then(function(){render();alert('เพิ่มปีงบประมาณ '+y+' และบันทึกลงระบบเรียบร้อยแล้ว')}).catch(function(e){alert(emsg(e))})}else{render();alert('เพิ่มปีงบประมาณ '+y+' เรียบร้อยแล้ว')}}
+function addFiscalYear(){var el=gv('newFiscalYear'),y=el&&String(el.value||'').trim();if(!/^25\d{2}$/.test(y||''))return alert('กรุณาระบุปีงบประมาณ พ.ศ. 4 หลัก เช่น 2571');if((ST.fiscalYears||[]).indexOf(y)>-1)return alert('มีปีงบประมาณนี้แล้ว');ST.yearRights=ST.yearRights||{};(ST.users||[]).forEach(function(u,i){ST.yearRights[u.email]=(ST.fiscalYears||[]).filter(function(x){var e=gv('fy_'+i+'_'+x);return e&&e.checked;});});ST.fiscalYears.push(y);ST.fiscalYears.sort();render()}
 function saveFiscalYearSettings(){var rights={};(ST.users||[]).forEach(function(u,i){rights[u.email]=(ST.fiscalYears||[]).filter(function(y){var e=gv('fy_'+i+'_'+y);return e&&e.checked;});});api('yearSave',{years:ST.fiscalYears,rights:rights}).then(function(r){ST.fiscalYears=r.fiscalYears||ST.fiscalYears;ST.yearRights=r.yearRights||{};return load()}).then(function(){render();alert('บันทึกปีงบประมาณและสิทธิ์เรียบร้อยแล้ว')}).catch(function(e){alert(emsg(e))})}
 function deleteUser(email){if(!confirm('ยืนยันลบบัญชี '+email+' ออกจากรายชื่อผู้ใช้งาน? ประวัติการดำเนินงานเดิมจะยังคงอยู่'))return;api('udelete',{email:email}).then(function(r){ST.users=r.users||[];render();alert('ลบบัญชีผู้ใช้แล้ว โดยประวัติเดิมยังคงอยู่')}).catch(function(e){alert(emsg(e))})}
 function outcomeObj(o){return o||{satisfaction:'',participants:'',knowledge:''};}
 function outcomeInputs(o,scope,label){o=outcomeObj(o);return '<div class="card outcome-card"><h4>'+label+'</h4><div class="g2"><div><label>คะแนนความพึงพอใจเฉลี่ย (เต็ม 5 คะแนน)</label><input type="number" min="0" max="5" step="0.01" value="'+esc(o.satisfaction)+'" oninput="clampNum(this,0,5);'+scope+'.satisfaction=this.value;save()"></div><div><label>จำนวนผู้เข้าร่วมกิจกรรม (คน)</label><input type="number" min="0" step="1" value="'+esc(o.participants)+'" oninput="clampNum(this,0,Infinity,1);'+scope+'.participants=this.value;save()"></div><div style="grid-column:1/-1"><label>ผลการนำองค์ความรู้ไปใช้ประโยชน์</label><textarea rows="2" oninput="'+scope+'.knowledge=this.value;save()">'+esc(o.knowledge)+'</textarea></div></div></div>';}
 var _followSingle=follow;follow=function(){var ps=ST.ps.filter(function(p){return isAp(p.status);});if(!ps.length)return ttl('💰 ติดตามผล / เบิกจ่าย / SROI')+'<div class="card">ยังไม่มีโครงการที่ได้รับอนุมัติทุนในปีงบประมาณนี้</div>';var id=String(ST.followId||ps[0].id);if(!ps.some(function(p){return String(p.id)===id;}))id=String(ps[0].id);ST.followId=id;var p=ps.filter(function(x){return String(x.id)===id;})[0],original=ST.ps;ST.ps=[p];var body=_followSingle();ST.ps=original;var opts=ps.map(function(x){return '<option value="'+x.id+'" '+(String(x.id)===id?'selected':'')+'>'+esc(x.code+' — '+(x.th||'(ไม่มีชื่อโครงการ)'))+'</option>';}).join('');var h=ttl('💰 ติดตามผล / เบิกจ่าย / SROI')+'<div class="card"><label>เลือกโครงการที่ต้องการกรอกข้อมูล</label><select style="width:100%;max-width:760px" onchange="ST.followId=this.value;render()">'+opts+'</select><div class="hint" style="margin-top:6px">แสดงข้อมูลทีละโครงการ เพื่อให้เจ้าหน้าที่กรอกและตรวจสอบผลได้สะดวก</div></div>'+body;h+='<div class="card"><h3>📊 ผลการประเมินระดับโครงการ</h3>'+outcomeInputs(p.outcomes,'G('+p.id+').outcomes','ผลลัพธ์ภาพรวมของโครงการ')+outcomeSaveBar(p.id)+'</div><div class="card"><h3>📌 ผลการดำเนินงานรายกิจกรรม</h3><div class="hint">กรอกคะแนนความพึงพอใจ จำนวนผู้เข้าร่วม และการนำองค์ความรู้ไปใช้ประโยชน์ แยกตามกิจกรรม</div>'+p.acts.slice(0,3).map(function(a,i){a.outcomes=outcomeObj(a.outcomes);return outcomeInputs(a.outcomes,'G('+p.id+').acts['+i+'].outcomes','กิจกรรมที่ '+(i+1)+(a.n?' — '+esc(a.n):''));}).join('')+'</div>';return h;};
-var _dashOutcome=dash;dash=function(){var h=_dashOutcome();if([0,2,4].indexOf(+ST.role)<0)return h; if(ST.role===4||ST.role===0){ h='<div class="row noprint" style="margin-bottom:12px;justify-content:flex-end"><button class="btn o" onclick="executiveSummaryPrint()">ðŸ–¨ï¸ à¸žà¸´à¸¡à¸žà¹Œà¸£à¸²à¸¢à¸‡à¸²à¸™à¸ªà¸£à¸¸à¸›à¸œà¸¹à¹‰à¸šà¸£à¸´à¸«à¸²à¸£ 1 à¸«à¸™à¹‰à¸² (A4)</button></div>'+h; }var ps=ST.ps,acts=[];ps.forEach(function(p){(p.acts||[]).slice(0,3).forEach(function(a,i){var o=outcomeObj(a.outcomes);acts.push({p:p,a:a,i:i,o:o});});});var proj=ps.map(function(p){return outcomeObj(p.outcomes)}),avgN=proj.filter(function(o){return o.satisfaction!==''&&o.satisfaction!=null;});var avgS=avgN.length?avgN.reduce(function(s,o){return s+(+o.satisfaction||0);},0)/avgN.length:null;var people=acts.reduce(function(s,x){return s+(+x.o.participants||0);},0),aN=acts.filter(function(x){return x.o.satisfaction!==''&&x.o.satisfaction!=null;}),aS=aN.length?aN.reduce(function(s,x){return s+(+x.o.satisfaction||0);},0)/aN.length:null,knowledge=acts.filter(function(x){return String(x.o.knowledge||'').trim();});return h+'<div class="card"><h3>📈 แดชบอร์ดผลลัพธ์บริการวิชาการ</h3><div class="stats"><div class="st"><b>'+(avgS==null?'-':avgS.toFixed(2)+'/5')+'</b>ความพึงพอใจเฉลี่ยระดับโครงการ</div><div class="st"><b>'+fmt(people)+'</b>ผู้เข้าร่วมกิจกรรมรวม</div><div class="st"><b>'+(aS==null?'-':aS.toFixed(2)+'/5')+'</b>ความพึงพอใจเฉลี่ยรายกิจกรรม</div><div class="st"><b>'+knowledge.length+'</b>กิจกรรมที่บันทึกการใช้ประโยชน์องค์ความรู้</div></div><div class="hint">สรุปจากข้อมูลที่เจ้าหน้าที่กรอกในปีงบประมาณ '+esc(ST.fy)+' · คะแนนความพึงพอใจเต็ม 5 คะแนน</div><div class="wrap"><table><tr><th>โครงการ</th><th>กิจกรรม</th><th>ความพึงพอใจ</th><th>ผู้เข้าร่วม (คน)</th><th>การนำองค์ความรู้ไปใช้</th></tr>'+acts.map(function(x){return '<tr><td>'+esc(x.p.th||x.p.code)+'</td><td>'+esc(x.a.n||('กิจกรรมที่ '+(x.i+1)))+'</td><td>'+(x.o.satisfaction===''?'-':Number(x.o.satisfaction).toFixed(2)+'/5')+'</td><td>'+fmt(x.o.participants||0)+'</td><td>'+esc(x.o.knowledge||'-')+'</td></tr>';}).join('')+'</table></div><h4 style="margin-top:16px">ผลลัพธ์ระดับโครงการ</h4><div class="wrap"><table><tr><th>โครงการ</th><th>ความพึงพอใจ</th><th>ผู้เข้าร่วม (คน)</th><th>การนำองค์ความรู้ไปใช้</th></tr>'+ps.map(function(p){var o=outcomeObj(p.outcomes);return '<tr><td>'+esc(p.th||p.code)+'</td><td>'+(o.satisfaction===''?'-':Number(o.satisfaction).toFixed(2)+'/5')+'</td><td>'+fmt(o.participants||0)+'</td><td>'+esc(o.knowledge||'-')+'</td></tr>';}).join('')+'</table></div></div>';};
+var _dashOutcome=dash;dash=function(){var h=_dashOutcome();if([0,2].indexOf(+ST.role)<0)return h;var ps=ST.ps,acts=[];ps.forEach(function(p){(p.acts||[]).slice(0,3).forEach(function(a,i){var o=outcomeObj(a.outcomes);acts.push({p:p,a:a,i:i,o:o});});});var proj=ps.map(function(p){return outcomeObj(p.outcomes)}),avgN=proj.filter(function(o){return o.satisfaction!==''&&o.satisfaction!=null;});var avgS=avgN.length?avgN.reduce(function(s,o){return s+(+o.satisfaction||0);},0)/avgN.length:null;var people=acts.reduce(function(s,x){return s+(+x.o.participants||0);},0),aN=acts.filter(function(x){return x.o.satisfaction!==''&&x.o.satisfaction!=null;}),aS=aN.length?aN.reduce(function(s,x){return s+(+x.o.satisfaction||0);},0)/aN.length:null,knowledge=acts.filter(function(x){return String(x.o.knowledge||'').trim();});return h+'<div class="card"><h3>📈 แดชบอร์ดผลลัพธ์บริการวิชาการ</h3><div class="stats"><div class="st"><b>'+(avgS==null?'-':avgS.toFixed(2)+'/5')+'</b>ความพึงพอใจเฉลี่ยระดับโครงการ</div><div class="st"><b>'+fmt(people)+'</b>ผู้เข้าร่วมกิจกรรมรวม</div><div class="st"><b>'+(aS==null?'-':aS.toFixed(2)+'/5')+'</b>ความพึงพอใจเฉลี่ยรายกิจกรรม</div><div class="st"><b>'+knowledge.length+'</b>กิจกรรมที่บันทึกการใช้ประโยชน์องค์ความรู้</div></div><div class="hint">สรุปจากข้อมูลที่เจ้าหน้าที่กรอกในปีงบประมาณ '+esc(ST.fy)+' · คะแนนความพึงพอใจเต็ม 5 คะแนน</div><div class="wrap"><table><tr><th>โครงการ</th><th>กิจกรรม</th><th>ความพึงพอใจ</th><th>ผู้เข้าร่วม (คน)</th><th>การนำองค์ความรู้ไปใช้</th></tr>'+acts.map(function(x){return '<tr><td>'+esc(x.p.th||x.p.code)+'</td><td>'+esc(x.a.n||('กิจกรรมที่ '+(x.i+1)))+'</td><td>'+(x.o.satisfaction===''?'-':Number(x.o.satisfaction).toFixed(2)+'/5')+'</td><td>'+fmt(x.o.participants||0)+'</td><td>'+esc(x.o.knowledge||'-')+'</td></tr>';}).join('')+'</table></div><h4 style="margin-top:16px">ผลลัพธ์ระดับโครงการ</h4><div class="wrap"><table><tr><th>โครงการ</th><th>ความพึงพอใจ</th><th>ผู้เข้าร่วม (คน)</th><th>การนำองค์ความรู้ไปใช้</th></tr>'+ps.map(function(p){var o=outcomeObj(p.outcomes);return '<tr><td>'+esc(p.th||p.code)+'</td><td>'+(o.satisfaction===''?'-':Number(o.satisfaction).toFixed(2)+'/5')+'</td><td>'+fmt(o.participants||0)+'</td><td>'+esc(o.knowledge||'-')+'</td></tr>';}).join('')+'</table></div></div>';};
 var _commYear=comm;comm=function(){return _commYear();};
 function fiscalSettings(){if(!CLOUD||!USER||Number(ST.role)!==0)return ttl('🗓️ จัดการปีงบประมาณ')+'<div class="card">เมนูนี้สำหรับผู้ดูแลระบบเท่านั้น</div>';var years=(ST.fiscalYears||['2570']).map(String),users=ST.users||[];var rows=users.map(function(u,i){var allowed=(ST.yearRights&&ST.yearRights[u.email])||['2570'];return '<tr><td>'+esc(u.name)+'<div class="hint">'+esc(u.email)+'</div></td><td>'+years.map(function(y){return '<label style="display:inline-flex;align-items:center;gap:4px;margin:3px 8px 3px 0;color:var(--tx);font-size:12px"><input type="checkbox" id="fy_'+i+'_'+y+'" '+((allowed.indexOf(y)>-1||u.email==='anuyachai@gmail.com')?'checked':'')+(u.email==='anuyachai@gmail.com'?' disabled':'')+'> '+esc(y)+'</label>';}).join('')+'</td></tr>';}).join('');return ttl('🗓️ จัดการปีงบประมาณ')+'<div class="card"><h3>เพิ่มปีงบประมาณ</h3><div class="g2"><div><label>ปีงบประมาณใหม่ (พ.ศ.)</label><input id="newFiscalYear" inputmode="numeric" placeholder="เช่น 2571"></div><div class="row" style="align-items:end"><button class="btn g" onclick="addFiscalYear()">เพิ่มปีงบประมาณ</button></div></div><div class="hint">การเพิ่มปีใหม่จะไม่ลบหรือย้ายข้อมูลเดิม โครงการแต่ละรายการจะผูกกับปีงบประมาณที่สร้างไว้ และสามารถเลือกปีเก่าเพื่อดูข้อมูลย้อนหลังได้</div></div><div class="card"><h3>กำหนดสิทธิ์ปีงบประมาณรายผู้ใช้</h3><div class="wrap"><table><tr><th>ผู้ใช้งาน</th><th>ปีงบประมาณที่ได้รับสิทธิ์</th></tr>'+rows+'</table></div><button class="btn" style="margin-top:12px" onclick="saveFiscalYearSettings()">บันทึกสิทธิ์ปีงบประมาณ</button></div>';};
 var _renderFiscal=_renderMulti;render=function(){_renderFiscal();if(CLOUD&&USER){var box=gv('nav');if(box){var ys=(ST.fiscalYears||['2570']).map(function(y){return '<option value="'+y+'" '+(String(y)===String(ST.fy)?'selected':'')+'>'+y+'</option>';}).join('');box.insertAdjacentHTML('afterbegin','<div class="ucard" style="margin:4px 0 10px"><label style="color:#cfe0f5">ปีงบประมาณที่กำลังใช้งาน</label><select style="width:100%" onchange="switchFiscalYear(this.value)">'+ys+'</select></div>');}}};
 
 if(CLOUD)cloudInit();else render();
-
-/* ===== ASV70 V2.0: Academic Service Workflow 7 Steps & Executive View Extension ===== */
-function currentStep(p){
-  var s = p.status || '';
-  if (/^ร่าง|ส่งข้อเสนอ|รอตรวจสอบเอกสาร|ส่งกลับแก้ไข|รอผลการพิจารณา/.test(s)) return 1;
-  if (/ผ่านการคัดเลือก|ไม่ผ่านการพิจารณา|ประกาศรายชื่อแล้ว|อนุมัติทุน/.test(s)) return 2;
-  if (/รอทำสัญญา|ลงนามสัญญาแล้ว|ทำสัญญาแล้ว/.test(s)) return 3;
-  if (/ขออนุมัติดำเนินโครงการ\/เบิกงวด 1|อนุมัติเบิกเงินงวด 1|เบิกเงินงวด 1/.test(s)) return 4;
-  if (/อยู่ระหว่างดำเนินโครงการ|รายงานความก้าวหน้า/.test(s)) return 5;
-  if (/ส่งหลักฐานเบิกจ่าย|เบิกเงินงวด 2|เบิกจ่ายค่าใช้จ่ายแล้ว|รอส่งรายงาน|รอตรวจสอบรายงาน/.test(s)) return 6;
-  if (/รอตรวจสอบปิดโครงการ|รอเคลียร์|ปิดโครงการสมบูรณ์|ยกเลิก/.test(s)) return 7;
-  return 1;
-}
-
-function workflowProgressBar(p){
-  var cur = currentStep(p);
-  var steps = [
-    "1. ข้อเสนอ & พิจารณา",
-    "2. ประกาศผลรับทุน",
-    "3. ลงนามสัญญา",
-    "4. อนุมัติ & เบิกงวด 1",
-    "5. ดำเนินงาน & ติดตาม",
-    "6. เบิกจ่าย & รายงานผล",
-    "7. ปิดโครงการสมบูรณ์"
-  ];
-  var html = '<div class="card" style="border-top:4px solid #173C6E"><h3 style="background:linear-gradient(90deg,#173C6E,#0ea5a4)">ผังกระบวนการดำเนินงาน 7 ขั้นตอน (Academic Service Workflow)</h3>';
-  html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px;margin:10px 0">';
-  steps.forEach(function(title, i){
-    var stepNum = i + 1;
-    var isDone = stepNum < cur || p.status === 'ปิดโครงการสมบูรณ์';
-    var isCurrent = stepNum === cur && p.status !== 'ปิดโครงการสมบูรณ์';
-    var bg = isCurrent ? '#173C6E' : (isDone ? '#16a34a' : 'var(--bd)');
-    var fg = (isCurrent || isDone) ? '#ffffff' : 'var(--mut)';
-    var badge = isDone ? '✓ ' : (isCurrent ? '▶ ' : '');
-    html += '<div style="background:'+bg+';color:'+fg+';padding:8px 6px;border-radius:10px;text-align:center;font-size:12px;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.08)">'+badge+esc(title)+'</div>';
-  });
-  html += '</div>';
-  html += '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--bd)">';
-  html += '<div><b>สถานะปัจจุบัน:</b> '+tag(p.status)+'</div>';
-  html += '<div class="hint">ขั้นตอนที่ '+cur+' จาก 7 ขั้นตอน · รหัสโครงการ: <b>'+esc(p.code||'-')+'</b></div>';
-  html += '</div></div>';
-  return html;
-}
-
-function workflowActionsCard(p){
-  if (!p) return '';
-  p.award = p.award || { no:'', date:'', fileUrl:'', note:'' };
-  p.contract = p.contract || { no:'', signDate:'', startDate:'', endDate:'', fileUrl:'' };
-  p.disbursement = p.disbursement || { inst1No:'', inst1Date:'', inst1Amount:0, finalAmount:0, finalDate:'' };
-  p.closure = p.closure || { checklistDone:false, closedDate:'', closedBy:'' };
-
-  var cur = currentStep(p);
-  var adm = ST.role === 0, stf = ST.role === 2, pi = ST.role === 1;
-  var canOperate = adm || stf;
-
-  var html = '<div class="card" style="border-top:4px solid #0ea5a4"><h3>⚙️ การดำเนินการตามขั้นตอน (Workflow Action Hub)</h3>';
-
-  // ข้อมูลอ้างอิงการอนุมัติคู่ขนานจากระบบภายนอก
-  html += '<div style="background:rgba(14,165,164,.08);border-left:4px solid #0ea5a4;padding:10px 14px;border-radius:8px;margin-bottom:14px;font-size:13px">';
-  html += 'ℹ️ <b>หมายเหตุระบบคู่ขนาน:</b> การลงนามอนุมัติของผู้บริหารดำเนินการผ่านระบบสารบรรณ/อนุมัติคู่ขนาน เจ้าหน้าที่จะเป็นผู้บันทึกเลขที่หนังสือและแนบเอกสารเพื่อขับเคลื่อนขั้นตอนในระบบนี้';
-  html += '</div>';
-
-  // Section 1: ขั้นตอนที่ 1 (ส่งกลับแก้ไขข้อเสนอ / ส่งให้กรรมการ)
-  if (cur === 1) {
-    html += '<div style="padding:10px 0">';
-    html += '<h4>ขั้นตอนที่ 1: การตรวจสอบข้อเสนอโครงการ</h4>';
-    if (canOperate) {
-      html += '<div class="row" style="gap:10px;flex-wrap:wrap;margin-top:8px">';
-      html += '<button type="button" class="btn o" onclick="applySt('+p.id+',\'รอผลการพิจารณา\',\'เจ้าหน้าที่ตรวจสอบความครบถ้วนแล้ว ส่งให้กรรมการประเมิน\')">✓ ผ่านการตรวจสอบ & ส่งต่อให้กรรมการประเมิน</button>';
-      html += '<button type="button" class="btn r" onclick="chSt('+p.id+',\'ส่งกลับแก้ไขข้อเสนอ\')">↩ ส่งกลับแก้ไขข้อเสนอ</button>';
-      html += '</div>';
-    } else if (pi) {
-      if (p.status === 'ส่งกลับแก้ไขข้อเสนอ' || p.status === 'ร่าง / บันทึกฉบับร่าง') {
-        html += '<div class="hint" style="color:var(--bad)">ข้อเสนออยู่ในสถานะแก้ไข สามารถปรับปรุงข้อมูลและกดยื่นข้อเสนอใหม่ได้</div>';
-        html += '<button type="button" class="btn o" style="margin-top:8px" onclick="subm()">🚀 กดยืนยันยื่นข้อเสนอโครงการ</button>';
-      } else {
-        html += '<div class="hint">ข้อเสนอโครงการส่งเข้าระบบแล้ว กำลังอยู่ระหว่างการตรวจสอบและประเมิน</div>';
-      }
-    }
-    html += '</div>';
-  }
-
-  // Section 2: ขั้นตอนที่ 2 (ประกาศผลผู้ได้รับทุน)
-  if (cur >= 2) {
-    html += '<div style="padding:10px 0;border-top:1px solid var(--bd)">';
-    html += '<h4>ขั้นตอนที่ 2: ประกาศรายชื่อผู้ได้รับทุน (อ้างอิงระบบภายนอก)</h4>';
-    if (canOperate) {
-      html += '<div class="g2">';
-      html += '<div><label>เลขที่ประกาศรับทุน</label><input id="wf_aw_no" value="'+esc(p.award.no)+'" placeholder="เช่น ประกาศ มช. ที่ 123/2570" oninput="P().award.no=this.value;save()"></div>';
-      html += '<div><label>วันที่ลงนามประกาศ</label><input id="wf_aw_date" type="date" value="'+esc(p.award.date)+'" oninput="P().award.date=this.value;save()"></div>';
-      html += '<div style="grid-column:1/-1"><label>ลิงก์/หมายเหตุไฟล์ประกาศ PDF</label><input id="wf_aw_url" value="'+esc(p.award.fileUrl)+'" placeholder="วาง URL หรือชื่อเอกสารประกาศ" oninput="P().award.fileUrl=this.value;save()"></div>';
-      html += '</div>';
-      if (p.status !== 'ประกาศรายชื่อแล้ว (ได้รับทุน)' && cur <= 2) {
-        html += '<div style="margin-top:10px"><button type="button" class="btn o" onclick="saveExternalDoc('+p.id+',\'award\')">💾 บันทึกผลประกาศ & ปรับสถานะเป็นได้รับทุน</button></div>';
-      } else {
-        html += '<div class="hint" style="color:var(--ok);margin-top:6px">✓ บันทึกประกาศผลเรียบร้อยแล้ว ('+esc(p.award.no||'ไม่ระบุเลขที่')+')</div>';
-      }
-    } else {
-      html += '<div class="hint">เลขที่ประกาศ: <b>'+esc(p.award.no||'อยู่ระหว่างดำเนินการ')+'</b> · วันที่: '+(p.award.date||'-')+'</div>';
-    }
-    html += '</div>';
-  }
-
-  // Section 3: ขั้นตอนที่ 3 (สัญญารับทุน)
-  if (cur >= 3) {
-    html += '<div style="padding:10px 0;border-top:1px solid var(--bd)">';
-    html += '<h4>ขั้นตอนที่ 3: สัญญารับทุนบริการวิชาการ (อ้างอิงระบบภายนอก)</h4>';
-    if (canOperate) {
-      html += '<div class="g2">';
-      html += '<div><label>เลขที่สัญญา</label><input id="wf_ct_no" value="'+esc(p.contract.no)+'" placeholder="เช่น สัญญาเลขที่ 45/2570" oninput="P().contract.no=this.value;save()"></div>';
-      html += '<div><label>วันที่ลงนามสัญญา</label><input id="wf_ct_date" type="date" value="'+esc(p.contract.signDate)+'" oninput="P().contract.signDate=this.value;save()"></div>';
-      html += '<div><label>วันเริ่มสัญญา</label><input type="date" value="'+esc(p.contract.startDate)+'" oninput="P().contract.startDate=this.value;save()"></div>';
-      html += '<div><label>วันสิ้นสุดสัญญา</label><input type="date" value="'+esc(p.contract.endDate)+'" oninput="P().contract.endDate=this.value;save()"></div>';
-      html += '</div>';
-      if (p.status !== 'ลงนามสัญญาแล้ว' && cur <= 3) {
-        html += '<div style="margin-top:10px"><button type="button" class="btn o" onclick="saveExternalDoc('+p.id+',\'contract\')">💾 บันทึกสัญญา & ปรับสถานะเป็นลงนามสัญญาแล้ว</button></div>';
-      } else {
-        html += '<div class="hint" style="color:var(--ok);margin-top:6px">✓ บันทึกสัญญาเรียบร้อยแล้ว ('+esc(p.contract.no||'ไม่ระบุเลขที่')+')</div>';
-      }
-    } else {
-      html += '<div class="hint">เลขที่สัญญา: <b>'+esc(p.contract.no||'อยู่ระหว่างจัดทำสัญญา')+'</b> · วันที่ลงนาม: '+(p.contract.signDate||'-')+'</div>';
-    }
-    html += '</div>';
-  }
-
-  // Section 4: ขั้นตอนที่ 4 (ขออนุมัติโครงการและเบิกเงินงวด 1)
-  if (cur >= 4) {
-    html += '<div style="padding:10px 0;border-top:1px solid var(--bd)">';
-    html += '<h4>ขั้นตอนที่ 4: อนุมัติดำเนินโครงการและเบิกเงินงวดที่ 1</h4>';
-    if (pi && p.status === 'ลงนามสัญญาแล้ว') {
-      html += '<button type="button" class="btn o" onclick="applySt('+p.id+',\'ขออนุมัติดำเนินโครงการ/เบิกงวด 1\',\'หัวหน้าโครงการยื่นคำขอดำเนินโครงการและขอเบิกงวด 1\')">📝 ยื่นคำขออนุมัติดำเนินโครงการและขอเบิกงวด 1</button>';
-    }
-    if (canOperate) {
-      html += '<div class="g2">';
-      html += '<div><label>เลขที่หนังสือ/ฎีกาเบิกเงินงวด 1</label><input id="wf_ds_no" value="'+esc(p.disbursement.inst1No)+'" placeholder="เช่น ฎีกาเลขที่ 789/2570" oninput="P().disbursement.inst1No=this.value;save()"></div>';
-      html += '<div><label>วันที่เงินโอนเข้าบัญชีโครงการ</label><input id="wf_ds_date" type="date" value="'+esc(p.disbursement.inst1Date)+'" oninput="P().disbursement.inst1Date=this.value;save()"></div>';
-      html += '</div>';
-      if (p.status !== 'อนุมัติเบิกเงินงวด 1 แล้ว' && cur <= 4) {
-        html += '<div style="margin-top:10px"><button type="button" class="btn o" onclick="saveExternalDoc('+p.id+',\'disburse1\')">💾 บันทึกอนุมัติงวด 1 & พร้อมดำเนินงาน</button></div>';
-      } else {
-        html += '<div class="hint" style="color:var(--ok);margin-top:6px">✓ อนุมัติเบิกเงินงวด 1 เรียบร้อยแล้ว ('+esc(p.disbursement.inst1No||'ไม่ระบุเลขที่')+')</div>';
-      }
-    } else {
-      html += '<div class="hint">เลขที่เบิกงวด 1: <b>'+esc(p.disbursement.inst1No||'รอการเบิกจ่าย')+'</b> · วันที่: '+(p.disbursement.inst1Date||'-')+'</div>';
-    }
-    html += '</div>';
-  }
-
-  // Section 5: ขั้นตอนที่ 5 (ดำเนินโครงการ & กำกับติดตาม)
-  if (cur >= 5) {
-    html += '<div style="padding:10px 0;border-top:1px solid var(--bd)">';
-    html += '<h4>ขั้นตอนที่ 5: การดำเนินโครงการและกำกับติดตามคุณภาพ</h4>';
-    html += '<div class="hint">ดำเนินกิจกรรมตามแผนงาน และบันทึกข้อเสนอแนะจากการลงพื้นที่/กำกับติดตาม</div>';
-    if (canOperate && p.status === 'อนุมัติเบิกเงินงวด 1 แล้ว') {
-      html += '<div style="margin-top:8px"><button type="button" class="btn" onclick="applySt('+p.id+',\'อยู่ระหว่างดำเนินโครงการ\',\'เริ่มกิจกรรมตามแผนงาน\')">▶ ปรับสถานะเป็นอยู่ระหว่างดำเนินโครงการ</button></div>';
-    }
-    html += '</div>';
-  }
-
-  // Section 6: ขั้นตอนที่ 6 (เบิกจ่ายและรายงานผล)
-  if (cur >= 6) {
-    html += '<div style="padding:10px 0;border-top:1px solid var(--bd)">';
-    html += '<h4>ขั้นตอนที่ 6: การเบิกค่าใช้จ่ายและรายงานผลการจัดกิจกรรม</h4>';
-    if (canOperate) {
-      html += '<div class="g2">';
-      html += '<div><label>ยอดเบิกจ่ายจริงรวมที่อนุมัติ (บาท)</label><input type="number" min="0" value="'+(p.disbursement.finalAmount||spentT(p))+'" oninput="P().disbursement.finalAmount=+this.value;save()"></div>';
-      html += '<div><label>วันที่อนุมัติเบิกจ่ายเสร็จสิ้น</label><input type="date" value="'+esc(p.disbursement.finalDate)+'" oninput="P().disbursement.finalDate=this.value;save()"></div>';
-      html += '</div>';
-      if (p.status !== 'เบิกจ่ายค่าใช้จ่ายแล้ว' && cur <= 6) {
-        html += '<div style="margin-top:10px"><button type="button" class="btn o" onclick="saveExternalDoc('+p.id+',\'disburseFinal\')">💾 บันทึกผลเบิกจ่ายค่าใช้จ่ายเรียบร้อย</button></div>';
-      }
-    }
-    html += '</div>';
-  }
-
-  // Section 7: ขั้นตอนที่ 7 (ปิดโครงการสมบูรณ์ Checklist)
-  if (cur >= 6) {
-    var hasSatisfaction = (p.outcomes && p.outcomes.satisfaction !== '' && p.outcomes.satisfaction != null);
-    var hasParticipants = (p.outcomes && p.outcomes.participants !== '' && p.outcomes.participants != null);
-    var hasKnowledge = !!(p.outcomes && String(p.outcomes.knowledge||'').trim());
-    var hasReceipts = spentT(p) > 0 || (p.disbursement && p.disbursement.finalAmount > 0);
-    var allReady = hasSatisfaction && hasParticipants && hasKnowledge;
-
-    html += '<div style="padding:10px 0;border-top:1px solid var(--bd)">';
-    html += '<h4>ขั้นตอนที่ 7: ตรวจสอบความครบถ้วนและปิดโครงการ (Closure Checklist)</h4>';
-    html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;margin:8px 0">';
-    html += '<div style="padding:8px 12px;border-radius:8px;background:'+(hasReceipts?'#dcfce7':'#fee2e2')+';color:'+(hasReceipts?'#166534':'#991b1b')+'">'+(hasReceipts?'✓ ':'✗ ')+'มีการบันทึกยอดค่าใช้จ่ายจริง ('+fmt(spentT(p))+' บาท)</div>';
-    html += '<div style="padding:8px 12px;border-radius:8px;background:'+(hasSatisfaction?'#dcfce7':'#fee2e2')+';color:'+(hasSatisfaction?'#166534':'#991b1b')+'">'+(hasSatisfaction?'✓ ':'✗ ')+'บันทึกคะแนนความพึงพอใจแล้ว ('+(p.outcomes.satisfaction||'-')+'/5)</div>';
-    html += '<div style="padding:8px 12px;border-radius:8px;background:'+(hasParticipants?'#dcfce7':'#fee2e2')+';color:'+(hasParticipants?'#166534':'#991b1b')+'">'+(hasParticipants?'✓ ':'✗ ')+'บันทึกจำนวนผู้เข้าร่วมกิจกรรมแล้ว ('+(p.outcomes.participants||'-')+' คน)</div>';
-    html += '<div style="padding:8px 12px;border-radius:8px;background:'+(hasKnowledge?'#dcfce7':'#fee2e2')+';color:'+(hasKnowledge?'#166534':'#991b1b')+'">'+(hasKnowledge?'✓ ':'✗ ')+'บันทึกการนำองค์ความรู้ไปใช้ประโยชน์แล้ว</div>';
-    html += '</div>';
-
-    if (canOperate && p.status !== 'ปิดโครงการสมบูรณ์') {
-      html += '<div style="margin-top:10px">';
-      html += '<button type="button" class="btn '+(allReady?'o':'g')+'" onclick="confirmProjectClosure('+p.id+')" '+(allReady?'':'title="แนะนำให้กรอกตัวชี้วัดให้ครบก่อน" ')+'>🔒 รับรองและปิดโครงการสมบูรณ์</button>';
-      html += '</div>';
-    } else if (p.status === 'ปิดโครงการสมบูรณ์') {
-      html += '<div class="hint" style="color:var(--ok);font-size:14px;font-weight:700;margin-top:6px">🎉 โครงการนี้ปิดโครงการสมบูรณ์เรียบร้อยแล้ว</div>';
-    }
-    html += '</div>';
-  }
-
-  html += '</div>';
-  return html;
-}
-
-function saveExternalDoc(id, type){
-  var p = G(id); if (!p) return;
-  var nextStatus = p.status, note = '';
-  if (type === 'award') {
-    nextStatus = 'ประกาศรายชื่อแล้ว (ได้รับทุน)';
-    note = 'บันทึกประกาศรับทุนเลขที่ ' + (p.award.no || '-');
-  } else if (type === 'contract') {
-    nextStatus = 'ลงนามสัญญาแล้ว';
-    note = 'บันทึกสัญญาเลขที่ ' + (p.contract.no || '-');
-  } else if (type === 'disburse1') {
-    nextStatus = 'อนุมัติเบิกเงินงวด 1 แล้ว';
-    note = 'บันทึกเลขที่ฎีกางวด 1: ' + (p.disbursement.inst1No || '-');
-  } else if (type === 'disburseFinal') {
-    nextStatus = 'เบิกจ่ายค่าใช้จ่ายแล้ว';
-    note = 'บันทึกเบิกจ่ายงวดสุดท้าย ยอดเงิน ' + fmt(p.disbursement.finalAmount || spentT(p)) + ' บาท';
-  }
-  flush().then(function(){
-    return applySt(id, nextStatus, note);
-  }).catch(function(e){ alert(emsg(e)); });
-}
-
-function confirmProjectClosure(id){
-  var p = G(id); if (!p) return;
-  if (!confirm('ยืนยันปิดโครงการ "' + (p.th || p.code) + '" สมบูรณ์? หลังปิดโครงการสถานะจะสิ้นสุดตามกระบวนการ')) return;
-  p.closure = p.closure || {};
-  p.closure.checklistDone = true;
-  p.closure.closedDate = new Date().toISOString().slice(0,10);
-  p.closure.closedBy = (USER && USER.email) || 'เจ้าหน้าที่';
-  applySt(id, 'ปิดโครงการสมบูรณ์', 'ปิดโครงการสมบูรณ์และบันทึกผลสัมฤทธิ์ครบถ้วน');
-}
-
-/* ===== Executive 1-Page Summary & Pipeline Visualizer ===== */
-function executiveSummaryPrint(){
-  var fy = ST.fy || '2570';
-  var ps = ST.ps || [];
-  var totalRequested = sum(ps, totT);
-  var approvedProjs = ps.filter(function(p){ return isAp(p.status); });
-  var totalApproved = sum(approvedProjs, totT);
-  var totalSpent = sum(ps, spentT);
-  var disbursePct = totalApproved ? Math.round(totalSpent / totalApproved * 100) : 0;
-
-  var stepCount = [0,0,0,0,0,0,0];
-  ps.forEach(function(p){
-    var st = currentStep(p);
-    stepCount[st - 1]++;
-  });
-
-  var win = window.open('','_blank','width=900,height=800');
-  var h = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>รายงานสรุปผู้บริหาร ปีงบประมาณ '+esc(fy)+'</title>';
-  h += '<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">';
-  h += '<style>body{font-family:Sarabun,sans-serif;padding:30px;color:#1b2433;line-height:1.5}h1{font-size:18px;margin:0 0 4px;color:#173C6E}h2{font-size:14px;font-weight:400;margin:0 0 16px;color:#64748b}table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}th,td{border:1px solid #cbd5e1;padding:8px 10px;text-align:left}th{background:#f1f5f9;font-weight:700}.card{border:1px solid #cbd5e1;border-radius:10px;padding:14px;margin-bottom:14px}.g{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.box{border:1px solid #e2e8f0;background:#f8fafc;padding:10px;border-radius:8px;text-align:center}.box b{display:block;font-size:20px;color:#173C6E}.noprint{margin-bottom:16px}@media print{.noprint{display:none}}</style></head><body>';
-  h += '<div class="noprint"><button onclick="window.print()" style="padding:8px 16px;background:#173C6E;color:#fff;border:0;border-radius:6px;font-weight:700;cursor:pointer">🖨️ พิมพ์เอกสาร / บันทึกเป็น PDF</button></div>';
-  h += '<h1>สรุปภาพรวมการบริหารงานบริการวิชาการรับใช้สังคม ปีงบประมาณ '+esc(fy)+'</h1>';
-  h += '<h2>คณะรัฐศาสตร์และรัฐประศาสนศาสตร์ มหาวิทยาลัยเชียงใหม่ · ข้อมูล ณ วันที่ '+new Date().toLocaleDateString('th-TH')+'</h2>';
-
-  h += '<div class="g">';
-  h += '<div class="box"><b>'+ps.length+'</b>โครงการทั้งหมด</div>';
-  h += '<div class="box"><b>'+fmt(totalRequested)+' บาท</b>วงเงินเสนอขอรวม</div>';
-  h += '<div class="box"><b>'+fmt(totalApproved)+' บาท</b>วงเงินอนุมัติรวม</div>';
-  h += '<div class="box"><b>'+disbursePct+'%</b>อัตราเบิกจ่าย ('+fmt(totalSpent)+' บาท)</div>';
-  h += '</div>';
-
-  h += '<div class="card"><h3 style="margin:0 0 8px;font-size:14px">ความก้าวหน้าโครงการตาม 7 ขั้นตอน (Workflow Pipeline)</h3>';
-  h += '<table><tr><th>1. ข้อเสนอ/พิจารณา</th><th>2. ประกาศผล</th><th>3. ทำสัญญา</th><th>4. อนุมัติ/เบิกงวด 1</th><th>5. ดำเนินงาน</th><th>6. เบิกจ่าย</th><th>7. ปิดโครงการ</th></tr>';
-  h += '<tr style="text-align:center;font-size:16px;font-weight:700;color:#173C6E">';
-  for (var k=0; k<7; k++) h += '<td style="text-align:center">'+stepCount[k]+' โครงการ</td>';
-  h += '</tr></table></div>';
-
-  h += '<div class="card"><h3 style="margin:0 0 8px;font-size:14px">รายชื่อและสถานะโครงการทั้งหมด</h3><table><tr><th>รหัส</th><th>ชื่อโครงการ</th><th>หัวหน้าโครงการ</th><th>งบประมาณเสนอขอ</th><th>เบิกจ่ายจริง</th><th>ขั้นตอน</th><th>สถานะ</th></tr>';
-  ps.forEach(function(p){
-    var st = currentStep(p);
-    h += '<tr><td>'+esc(p.code||'-')+'</td><td>'+esc(p.th||'-')+'</td><td>'+esc((p.pi&&p.pi.name)||'-')+'</td><td style="text-align:right">'+fmt(totT(p))+'</td><td style="text-align:right">'+fmt(spentT(p))+'</td><td style="text-align:center">ขั้นที่ '+st+'</td><td>'+esc(p.status)+'</td></tr>';
-  });
-  h += '</table></div></body></html>';
-  win.document.write(h);
-  win.document.close();
-}
-
 
 /* ===== ASV70 critical fix: role-aware boot + persistent Admin access ===== */
 var _goAdminAccess = go;
