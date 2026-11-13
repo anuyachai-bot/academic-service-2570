@@ -413,13 +413,19 @@ function applyBootData(r){
   return r;
 }
 function load(){
-  /* api() already sends the selected role; the server validates it before actBoot().
-     One boot request is therefore sufficient, including accounts with multiple roles. */
-  return api("boot",{fy:String(ST.fy||2570)}).then(function(data){
-    var u=data.user||{},roles=(Array.isArray(u.roles)?u.roles:[u.role]).map(Number);
-    var selected=roles.indexOf(Number(ST.role))>-1?Number(ST.role):Number(u.role);
+  var rememberedRole=Number(ST.role);
+  return api("boot",{fy:String(ST.fy||2570)}).then(function(first){
+    var u=first.user||{},roles=(Array.isArray(u.roles)?u.roles:[u.role]).map(Number);
+    var selected=roles.indexOf(rememberedRole)>-1?rememberedRole:Number(u.role);
+    USER={email:u.email,name:u.name,role:Number(u.role),roles:roles};
+    /* If a remembered role differs from the account's primary role, request a second
+       boot with that role so the server returns only the data permitted for it. */
+    if(selected!==Number(u.role)){
+      ST.role=selected;
+      return api("boot",{fy:String(ST.fy||2570)}).then(applyBootData);
+    }
     ST.role=selected;
-    return applyBootData(data);
+    return applyBootData(first);
   });
 }
 function upd(np){norm(np);var f=0;for(var i=0;i<ST.ps.length;i++)if(ST.ps[i].id==np.id){ST.ps[i]=np;f=1}if(!f)ST.ps.push(np);LS[np.id]=JSON.stringify(np)}
